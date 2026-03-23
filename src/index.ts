@@ -3,7 +3,6 @@
 export { MonkePayHono } from "./middleware/hono.js";
 export { MonkePayExpress } from "./middleware/express.js";
 export { MonkePayFastify } from "./middleware/fastify.js";
-export { MonkePayNext } from "./middleware/next.js";
 export type {
   MonkePayConfig,
   MonkePayErrorCode,
@@ -17,13 +16,11 @@ export type {
 import { MonkePayHono } from "./middleware/hono.js";
 import { MonkePayExpress } from "./middleware/express.js";
 import { MonkePayFastify } from "./middleware/fastify.js";
-import { MonkePayNext } from "./middleware/next.js"
 
 export const MonkePay = {
   hono: MonkePayHono,
   express: MonkePayExpress,
   fastify: MonkePayFastify,
-  next: MonkePayNext,
 };
 
 export default MonkePay;

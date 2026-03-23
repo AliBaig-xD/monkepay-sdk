@@ -87,18 +87,20 @@ function buildMonkePayExpress(config: MonkePayConfig): MonkePayExpressMiddleware
           return res;
         };
 
-        const x402 = paymentMiddleware(payTo as `0x${string}`, routes);
-        await x402(request, res, async () => {
-          await proceed();
-        });
-
-        // Restore write/end and headersSent before finalizeFromX402 flushes.
-        (res as any).write = originalWrite;
-        (res as any).end = originalEnd;
-        if (originalHeadersSentDescriptor) {
-          Object.defineProperty(res, "headersSent", originalHeadersSentDescriptor);
-        } else {
-          delete (res as any).headersSent;
+        try {
+          const x402 = paymentMiddleware(payTo as `0x${string}`, routes);
+          await x402(request, res, async () => {
+            await proceed();
+          });
+        } finally {
+          // Restore write/end and headersSent even if x402 throws.
+          (res as any).write = originalWrite;
+          (res as any).end = originalEnd;
+          if (originalHeadersSentDescriptor) {
+            Object.defineProperty(res, "headersSent", originalHeadersSentDescriptor);
+          } else {
+            delete (res as any).headersSent;
+          }
         }
 
         buffer = { chunks, endCallbacks, originalEnd };
