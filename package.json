@@ -1,0 +1,103 @@
+{
+  "name": "@monkepay/sdk",
+  "version": "0.1.0",
+  "description": "Payment gating for AI agent APIs using x402",
+  "license": "ISC",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./hono": {
+      "types": "./dist/hono.d.ts",
+      "import": "./dist/hono.js",
+      "require": "./dist/hono.cjs"
+    },
+    "./express": {
+      "types": "./dist/express.d.ts",
+      "import": "./dist/express.js",
+      "require": "./dist/express.cjs"
+    },
+    "./fastify": {
+      "types": "./dist/fastify.d.ts",
+      "import": "./dist/fastify.js",
+      "require": "./dist/fastify.cjs"
+    },
+    "./next": {
+      "types": "./dist/next.d.ts",
+      "import": "./dist/next.js",
+      "require": "./dist/next.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsup src/index.ts src/hono.ts src/express.ts src/fastify.ts src/next.ts --format cjs,esm --dts --sourcemap --external next",
+    "dev": "tsup src/index.ts src/hono.ts src/express.ts src/fastify.ts src/next.ts --format cjs,esm --dts --watch --external next",
+    "typecheck": "tsc --noEmit",
+    "test:smoke:fastify": "npm run build && node scripts/smoke-fastify.mjs",
+    "test:integration:fastify": "npm run build && node scripts/integration-fastify.mjs",
+    "test:smoke:hono": "npm run build && node scripts/smoke-hono.mjs",
+    "test:integration:hono": "npm run build && node scripts/integration-hono.mjs",
+    "test:smoke:express": "npm run build && node scripts/smoke-express.mjs",
+    "test:integration:express": "npm run build && node scripts/integration-express.mjs",
+    "test:smoke": "npm run test:smoke:fastify && npm run test:smoke:hono && npm run test:smoke:express",
+    "test:integration": "npm run test:integration:fastify && npm run test:integration:hono && npm run test:integration:express",
+    "test": "npm run test:smoke && npm run test:integration",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "express": ">=4.18.0",
+    "fastify": ">=4.0.0",
+    "hono": ">=4.12.7",
+    "next": ">=14.0.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    },
+    "fastify": {
+      "optional": true
+    },
+    "hono": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "x402": "^1.1.0",
+    "x402-express": "^1.1.0",
+    "x402-hono": "^1.1.0",
+    "x402-next": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.4",
+    "express": "^5.2.1",
+    "fastify": "^5.8.2",
+    "hono": "^4.12.7",
+    "next": "^15.0.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
