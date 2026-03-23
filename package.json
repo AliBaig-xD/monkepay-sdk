@@ -1,6 +1,6 @@
 {
   "name": "@monkepay/sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Payment gating for AI agent APIs using x402",
   "homepage": "https://github.com/AliBaig-xD/monkepay-sdk#readme",
   "bugs": {
